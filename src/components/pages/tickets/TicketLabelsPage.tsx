@@ -34,6 +34,7 @@ export const TicketLabelsPage: React.FC = () => {
           {(labels?.filter((l) => ticket?.labels?.includes(l._id)) || []).map(
             (label) => (
               <Label
+                key={label._id}
                 label={label}
                 onClick={() => {
                   removeLabel(label._id, getTicket);
@@ -57,6 +58,7 @@ export const TicketLabelsPage: React.FC = () => {
             (label) => (
               <Label
                 label={label}
+                key={label._id}
                 onClick={() => {
                   addLabel(label._id, getTicket);
                 }}
