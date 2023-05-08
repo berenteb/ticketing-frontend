@@ -1,25 +1,19 @@
-import React from "react";
 import { Button, ButtonProps } from "@chakra-ui/react";
-import { useNavigate } from "react-router";
+import { To, useNavigate } from "react-router-dom";
 
-type LinkButtonProps = {
-  to: string;
-};
+interface LinkButtonProps extends ButtonProps {
+  to: To | number;
+}
 
-export const LinkButton: React.FC<LinkButtonProps & ButtonProps> = ({
-  to,
-  children,
-  ...props
-}) => {
+export function LinkButton({ to, ...props }: LinkButtonProps) {
   const navigate = useNavigate();
   return (
     <Button
-      {...props}
       onClick={() => {
-        navigate(to);
+        if (typeof to === "number") navigate(to);
+        else navigate(to);
       }}
-    >
-      {children}
-    </Button>
+      {...props}
+    />
   );
-};
+}

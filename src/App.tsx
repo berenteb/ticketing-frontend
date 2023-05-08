@@ -1,43 +1,39 @@
+import axios from "axios";
 import React from "react";
-import { IndexLayout } from "./components/IndexLayout";
-import { BrowserRouter, Routes } from "react-router-dom";
-import { Route } from "react-router";
-import { MainPage } from "./components/pages/MainPage";
-import { LabelsPage } from "./components/pages/LabelsPage";
-import { BoardsPage } from "./components/pages/BoardsPage";
-import { TicketsPage } from "./components/pages/TicketsPage";
-import { TicketViewPage } from "./components/pages/tickets/TicketViewPage";
-import { TicketEditPage } from "./components/pages/tickets/TicketEditPage";
-import { LabelEditPage } from "./components/pages/labels/LabelEditPage";
-import { BoardEditPage } from "./components/pages/boards/BoardEditPage";
-import { BoardViewPage } from "./components/pages/boards/BoardViewPage";
-import { TicketLabelsPage } from "./components/pages/tickets/TicketLabelsPage";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BoardPage } from "./pages/boards/Board.page";
+import { BoardsPage } from "./pages/boards/Boards.page";
+import { CreateBoardPage } from "./pages/boards/CreateBoard.page";
+import { EditBoardPage } from "./pages/boards/EditBoard.page";
+import { CreateTicketPage } from "./pages/tickets/CreateTicket.page";
+import { EditTicketPage } from "./pages/tickets/EditTicket.page";
+import { TicketPage } from "./pages/tickets/Ticket.page";
+import { API_URL } from "./utils/config";
+
+axios.defaults.baseURL = API_URL;
 
 function App() {
   return (
     <BrowserRouter>
-      <IndexLayout>
-        <Routes>
-          <Route path="/">
-            <Route path="tickets">
-              <Route path=":id/labels" element={<TicketLabelsPage />} />
-              <Route path=":id/edit" element={<TicketEditPage />} />
-              <Route path=":id" element={<TicketViewPage />} />
-              <Route index element={<TicketsPage />} />
-            </Route>
-            <Route path="labels">
-              <Route path=":id/edit" element={<LabelEditPage />} />
-              <Route index element={<LabelsPage />} />
-            </Route>
-            <Route path="boards">
-              <Route path=":id/edit" element={<BoardEditPage />} />
-              <Route path=":id" element={<BoardViewPage />} />
-              <Route index element={<BoardsPage />} />
-            </Route>
-            <Route index element={<MainPage />} />
+      <Routes>
+        <Route path="tickets">
+          <Route path="new" element={<CreateTicketPage />} />
+          <Route path=":id">
+            <Route path="edit" element={<EditTicketPage />} />
+            <Route index element={<TicketPage />} />
           </Route>
-        </Routes>
-      </IndexLayout>
+          <Route index element={<Navigate to="/" />} />
+        </Route>
+        <Route path="boards">
+          <Route path="new" element={<CreateBoardPage />} />
+          <Route path=":id">
+            <Route path="edit" element={<EditBoardPage />} />
+            <Route index element={<BoardPage />} />
+          </Route>
+          <Route index element={<Navigate to="/" />} />
+        </Route>
+        <Route index element={<BoardsPage />} />
+      </Routes>
     </BrowserRouter>
   );
 }

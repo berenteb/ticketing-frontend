@@ -1,16 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-import customTheme from "./theme/theme";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "react-query";
+import App from "./App";
+import { theme } from "./utils/theme";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <ChakraProvider theme={customTheme}>
-      <App />
-    </ChakraProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+const queryClient = new QueryClient();
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
 );
-reportWebVitals();
+root.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
+);
